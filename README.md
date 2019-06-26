@@ -1,4 +1,4 @@
-# django-basicauth
+# django-basicauthly
 A Basic Authentication middleware for Django
 
 ## Status
