@@ -51,9 +51,9 @@ class BasicAuthMiddleware(object):
             # not valid basic auth, ignore request
             return None
 
-        auth_meth, auth_data = auth
+        auth_method, auth_data = auth
 
-        if auth_meth.lower() != "basic":
+        if auth_method.lower() != "basic":
             # not valid basic auth, ignore request
             return None
 
@@ -89,7 +89,7 @@ if _HAVE_REST_FRAMEWORK:
 
         def enforce_csrf(self, request):
             if getattr(request, '_basic_authenticated', False):
-                # This was not authed by the django session auth mechanism
-                # so we don't want to apply a csrf check
+                # This request was not authenticated by the django session security module,
+                # so its CSRF check will fail. Avoid.
                 return
             _RestSessionAuthentication.enforce_csrf(self, request)
