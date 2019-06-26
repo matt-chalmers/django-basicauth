@@ -1,5 +1,14 @@
-*.pyc
+django-basicauth.iml
 /.idea
 /.project
+/build
+/temp
+/dist
+/.cache
+/.eggs
+*.pyc
 *~
-django-basicauth.iml
+/remember.egg-info
+.coverage
+.env
+.env.leave
