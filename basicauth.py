@@ -12,6 +12,7 @@
 """
 
 import base64
+import binascii
 from datetime import datetime
 
 from django.utils.deprecation import MiddlewareMixin
@@ -81,7 +82,17 @@ class BasicAuthMiddleware(MiddlewareMixin):
             # not valid basic auth, ignore request
             return None
 
-        uname, passwd = base64.b64decode(auth_data).decode('utf-8').split(':', 1)
+        try:
+            auth_data = base64.b64decode(auth_data)
+        except (TypeError, binascii.Error):
+            return None
+
+        try:
+            auth_data = auth_data.decode('utf-8')
+        except UnicodeDecodeError:
+            return None
+
+        uname, passwd = base64.b64decode(auth_data).decode().split(':', 1)
         user = authenticate(username=uname, password=passwd)
 
         if user is not None and user.is_active:
