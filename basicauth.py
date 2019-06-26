@@ -14,6 +14,8 @@
 import base64
 from datetime import datetime
 
+from django.utils.deprecation import MiddlewareMixin
+
 try:
     from rest_framework.authentication import SessionAuthentication as _RestSessionAuthentication
     _HAVE_REST_FRAMEWORK = True
@@ -29,13 +31,20 @@ except ImportError:
     _HAVE_SESSION_AUTH = False
 
 
-class BasicAuthMiddleware(object):
+UNAUTHORISED_HTML = """
+<html>
+<head><title>Basic Authentication Required</title></head>
+<body><h1>Authorisation failed for this request. Please provide valid credentials.</h1></body>
+</html>
+"""
+
+class BasicAuthMiddleware(MiddlewareMixin):
 
     @staticmethod
     def unauthorisedResponse():
         from django.conf import settings
         from django.http import HttpResponse
-        response = HttpResponse()
+        response = HttpResponse(UNAUTHORISED_HTML)
         response['WWW-Authenticate'] = 'Basic realm="%s"' % settings.BASIC_AUTH_REALM
         response.status_code = 401
         return response
