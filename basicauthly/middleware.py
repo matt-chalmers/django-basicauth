@@ -105,7 +105,11 @@ class BasicAuthMiddleware(MiddlewareMixin):
         except UnicodeDecodeError:
             return None
 
-        auth_parts = base64.b64decode(auth_data).decode().split(':', 1)
+        auth_parts = auth_data.split(':', 1)
+        if len(auth_parts) != 2:
+            # not valid basic auth, ignore request
+            return None
+
         uname, passwd = [unquote_plus(x) for x in auth_parts]
         user = authenticate(username=uname, password=passwd)
 
