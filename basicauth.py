@@ -15,6 +15,13 @@ import base64
 import binascii
 from datetime import datetime
 
+try:
+    # Python 2
+    from urllib import unquote_plus
+except ImportError:
+    # Python 3
+    from urllib.parse import unquote_plus
+
 from django.utils.deprecation import MiddlewareMixin
 
 try:
@@ -88,11 +95,17 @@ class BasicAuthMiddleware(MiddlewareMixin):
             return None
 
         try:
-            auth_data = auth_data.decode('utf-8')
+            encoding = request.encoding or "utf-8"
+        except AttributeError:
+            encoding = "utf-8"
+
+        try:
+            auth_data = auth_data.decode(encoding)
         except UnicodeDecodeError:
             return None
 
-        uname, passwd = base64.b64decode(auth_data).decode().split(':', 1)
+        auth_parts = base64.b64decode(auth_data).decode().split(':', 1)
+        uname, passwd = [unquote_plus(x) for x in auth_parts]
         user = authenticate(username=uname, password=passwd)
 
         if user is not None and user.is_active:
