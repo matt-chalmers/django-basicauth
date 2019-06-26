@@ -1,11 +1,11 @@
 # django-basicauthly
-A Basic Authentication middleware for Django
+Basic Authentication support for Django
 
 ## Status
 
-WIP - currently supporting a soft authentication check only. See below.
+WIP - currently supporting a soft authentication middleware only. See below.
 
-Lots of TODO's still :)
+Lots of TODOs in motion to create more utils and options, as well as testing before publication.
 
 ## Notes
 
