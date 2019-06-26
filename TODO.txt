@@ -5,3 +5,5 @@
 * implement a decorator to apply to specific functions
 * implement testing
 * setup distribution to PyPi
+* wrapt vs functools version?
+* add option to use settings for users, with remoteuser passthrough
