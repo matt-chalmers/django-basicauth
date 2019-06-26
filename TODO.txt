@@ -1,0 +1,7 @@
+
+* Refactor the handling into a helper routine so we can build a decorator as well
+* Implement mandatory checking vs optional - currently its a soft check only when the params
+  are present, but some might want to make it a hard check.
+* implement a decorator to apply to specific functions
+* implement testing
+* setup distribution to PyPi

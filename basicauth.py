@@ -46,6 +46,7 @@ UNAUTHORISED_HTML = """
 </html>
 """
 
+
 class BasicAuthMiddleware(MiddlewareMixin):
 
     @staticmethod
